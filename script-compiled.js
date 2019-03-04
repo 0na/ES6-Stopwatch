@@ -39,7 +39,6 @@ var Stopwatch = function () {
       return pad0(minutes) + ":" + pad0(seconds) + ":" + pad0(Math.floor(miliseconds));
     }
 
-    //MOJ kod
     // format(times) {
     //   return `${pad0(times.minutes)}:${pad0(times.seconds)}:${pad0(
     //     Math.floor(times.miliseconds)
@@ -47,9 +46,8 @@ var Stopwatch = function () {
     // } //wynik to 02:04:23 (2 min, 4 s, 10 ms)
 
 
-    //Patryka
     // start() {
-    //   const {
+    //   let {
     //     running,
     //     watch,
     //     step
@@ -61,7 +59,6 @@ var Stopwatch = function () {
     //   }
     // }
 
-    //MOJ 
 
   }, {
     key: "start",
@@ -82,43 +79,41 @@ var Stopwatch = function () {
       this.calculate();
       this.print();
     }
-
-    // calculate() {
-    //   const {
-    //     miliseconds,
-    //     seconds,
-    //     minutes
-    //   } = this.times;
-    //   miliseconds += 1;
-    //   if (miliseconds >= 100) {
-    //     seconds += 1;
-    //     miliseconds = 0;
-    //   }
-    //   if (seconds >= 60) {
-    //     minutes += 1;
-    //     seconds = 0;
-    //   }
-    //   this.times = {
-    //     minutes,
-    //     seconds,
-    //     miliseconds
-    //   };
-    // }
-    //MOj kod
-
   }, {
     key: "calculate",
     value: function calculate() {
-      this.times.miliseconds += 1;
-      if (this.times.miliseconds >= 100) {
-        this.times.seconds += 1;
-        this.times.miliseconds = 0;
+      var _times = this.times,
+          miliseconds = _times.miliseconds,
+          seconds = _times.seconds,
+          minutes = _times.minutes;
+
+      miliseconds += 1;
+      if (miliseconds >= 100) {
+        seconds += 1;
+        miliseconds = 0;
       }
-      if (this.times.seconds >= 60) {
-        this.times.minutes += 1;
-        this.times.seconds = 0;
+      if (seconds >= 60) {
+        minutes += 1;
+        seconds = 0;
       }
+      this.times = {
+        minutes: minutes,
+        seconds: seconds,
+        miliseconds: miliseconds
+      };
     }
+    // calculate() {
+    //   this.times.miliseconds += 1;
+    //   if (this.times.miliseconds >= 100) {
+    //     this.times.seconds += 1;
+    //     this.times.miliseconds = 0;
+    //   }
+    //   if (this.times.seconds >= 60) {
+    //     this.times.minutes += 1;
+    //     this.times.seconds = 0;
+    //   }
+    // }
+
   }, {
     key: "stop",
     value: function stop() {
