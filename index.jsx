@@ -16,47 +16,29 @@ class Stopwatch {
   print() {
     this.display.innerText = this.format(this.times);
   }
-
-  format({
-    minutes,
-    seconds,
-    miliseconds
-  }) {
-    //przygotowuje tekst do wyswietlenia
-    return `${pad0(minutes)}:${pad0(seconds)}:${pad0(
-      Math.floor(miliseconds)
-    )}`;
+  format({ minutes, seconds, miliseconds }) {
+    return `${pad0(minutes)}:${pad0(seconds)}:${pad0(Math.floor(miliseconds))}`;
+  }
+  start() {
+    const { running, watch, step } = this;
+    if (!running) {
+      running = true;
+      watch = setInterval(() => step(), 10);
+    }
   }
 
-  //MOJ kod
   // format(times) {
   //   return `${pad0(times.minutes)}:${pad0(times.seconds)}:${pad0(
   //     Math.floor(times.miliseconds)
   //   )}`;
   // } //wynik to 02:04:23 (2 min, 4 s, 10 ms)
 
-
-  //Patryka
-  // start() {
-  //   const {
-  //     running,
-  //     watch,
-  //     step
-  //   } = this;
-
-  //   if (!running) {
-  //     running = true;
-  //     watch = setInterval(() => step(), 10);
+  //   start() {
+  //     if (!this.running) {
+  //       this.running = true;
+  //       this.watch = setInterval(() => this.step(), 10);
+  //     }
   //   }
-  // }
-
-  //MOJ 
-  start() {
-    if (!this.running) {
-      this.running = true;
-      this.watch = setInterval(() => this.step(), 10);
-    }
-  }
 
   step() {
     if (!this.running) return;
@@ -64,40 +46,35 @@ class Stopwatch {
     this.print();
   }
 
+  calculate() {
+    const { miliseconds, seconds, minutes } = this.times;
+    miliseconds += 1;
+    if (miliseconds >= 100) {
+      seconds += 1;
+      miliseconds = 0;
+    }
+    if (seconds >= 60) {
+      minutes += 1;
+      seconds = 0;
+    }
+    this.times = {
+      minutes,
+      seconds,
+      miliseconds
+    };
+  }
 
   // calculate() {
-  //   const {
-  //     miliseconds,
-  //     seconds,
-  //     minutes
-  //   } = this.times;
-  //   miliseconds += 1;
-  //   if (miliseconds >= 100) {
-  //     seconds += 1;
-  //     miliseconds = 0;
+  //   this.times.miliseconds += 1;
+  //   if (this.times.miliseconds >= 100) {
+  //     this.times.seconds += 1;
+  //     this.times.miliseconds = 0;
   //   }
-  //   if (seconds >= 60) {
-  //     minutes += 1;
-  //     seconds = 0;
+  //   if (this.times.seconds >= 60) {
+  //     this.times.minutes += 1;
+  //     this.times.seconds = 0;
   //   }
-  //   this.times = {
-  //     minutes,
-  //     seconds,
-  //     miliseconds
-  //   };
   // }
-  //MOj kod
-  calculate() {
-    this.times.miliseconds += 1;
-    if (this.times.miliseconds >= 100) {
-      this.times.seconds += 1;
-      this.times.miliseconds = 0;
-    }
-    if (this.times.seconds >= 60) {
-      this.times.minutes += 1;
-      this.times.seconds = 0;
-    }
-  }
 
   stop() {
     this.running = false;
@@ -105,7 +82,6 @@ class Stopwatch {
   }
 }
 const stopwatch = new Stopwatch(document.querySelector(".stopwatch"));
-
 
 let startButton = document.getElementById("start");
 startButton.addEventListener("click", () => stopwatch.start());
